@@ -5,10 +5,6 @@ class Test
   include Vidibus::ValidateUri::Core
 end
 
-class Rails < OpenStruct
-  def self.logger; end
-end
-
 describe 'Vidibus::ValidateUri::Core' do
   let(:test) {Test.new}
 
@@ -218,6 +214,8 @@ describe 'Vidibus::ValidateUri::Core' do
     end
 
     it 'should fail for http://www.vidibus.zzz which causes an SocketError' do
+      mock(Rails).logger.any_number_of_times {true}
+      mock(Rails.logger).error.with_any_args
       uri = 'http://www.vidibus.zzz'
       stub.any_instance_of(Net::HTTP).head {raise SocketError}
       test.accessible_uri?(uri).should eq(false)

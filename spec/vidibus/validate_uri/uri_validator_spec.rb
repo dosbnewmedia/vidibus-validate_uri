@@ -47,6 +47,8 @@ describe 'Vidibus::ValidateUri::UriValidator' do
   end
 
   it 'should add an error to model if URI is inaccessible' do
+    mock(Rails).logger.any_number_of_times {true}
+    mock(Rails.logger).error.with_any_args
     accessible_model.uri = 'http://vidibus.zzz'
     stub.any_instance_of(Net::HTTP).head {raise SocketError}
     accessible_model.should be_invalid

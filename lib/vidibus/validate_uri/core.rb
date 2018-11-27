@@ -51,7 +51,7 @@ module Vidibus
             return (code and code.to_i < 400)
           end
         rescue SocketError => e
-          if defined?(Rails) and Rails.logger
+          if defined?(Rails) && Rails.logger
             Rails.logger.error "Accessing #{_uri.host} on port #{_uri.port} failed: #{e.inspect}"
           end
           false
